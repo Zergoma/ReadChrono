@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="ReadChrono/ReadChrono.csproj">
+    <Deploy />
+  </Project>
+</Solution>

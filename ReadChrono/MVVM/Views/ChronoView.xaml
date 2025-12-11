@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+             xmlns:converter="clr-namespace:ReadChrono.Converters"
+             xmlns:viewmodel="clr-namespace:ReadChrono.MVVM.ViewModels"
+             x:Class="ReadChrono.MVVM.Views.ChronoView"
+             Title="ChronoView"
+             x:DataType="viewmodel:ChronoViewModel"
+    BackgroundImageSource="background.jpg">
+
+    <ContentPage.Resources>
+        <converter:TimeToLottieConverter x:Key="timetolottieconverter"/>
+        <converter:StopWatchToActionTextConverter x:Key="stopwathtotext"/>
+        <converter:IsRunningToOpacityConverter x:Key="isrunningtoopacity_converter"/>
+        <converter:IsRunningToOpacityConverter x:Key="isrunningtoppacity_invertedconverter" Inverted="True"/>
+        <converter:BoolInverterConverter x:Key="boolinverter_converter"/>
+    </ContentPage.Resources>
+
+    <ScrollView>
+    <VerticalStackLayout
+        
+          VerticalOptions="Center"
+          HorizontalOptions="Center">
+
+        <skia:SKLottieView RepeatCount="-1" HeightRequest="300"
+                   Source="{Binding EllapseTime, Converter={StaticResource timetolottieconverter}}"
+                   Opacity="{Binding IsRunning, Converter={StaticResource isrunningtoppacity_invertedconverter}}"
+                   Grid.Row="2"/>
+        
+        
+
+        <Label Grid.Row="1"
+               Margin="0,0,0,50"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               FontSize="40"
+               TextColor="White"
+               FontAttributes="Bold"
+               Text="{Binding EllapseTime, StringFormat='{0}s'}"/>
+
+            <Grid ColumnDefinitions=".3*,.3*,.3*">
+                
+                <Button WidthRequest="150" HeightRequest="150"
+                        Grid.Column="1"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        CornerRadius="50"
+                        FontSize="40"
+                        Opacity=".8"
+                        BorderColor="White"
+                        BorderWidth="2"
+                        Command="{Binding StartStopWatch}"
+                        Text="{Binding IsRunning, Converter={StaticResource stopwathtotext}}"/>
+
+                <skia:SKLottieView RepeatCount="-1"
+                                   Grid.Column="0"
+                                   WidthRequest="150"
+                                   HeightRequest="150"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   Source="Ready.json"
+                                   Opacity="{Binding IsRunning, Converter={StaticResource isrunningtoopacity_converter}}"/>
+            </Grid>
+        
+        
+
+
+
+
+    </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
